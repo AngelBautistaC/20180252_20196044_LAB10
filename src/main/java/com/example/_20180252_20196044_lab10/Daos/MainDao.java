@@ -12,7 +12,7 @@ public class MainDao extends DaoBase{
         Usuario usuario = null;
 
         String sql = "select idusuario, nombre, apellido, edad, correo, especialidad, gasto" +
-                " from usuario where correo = ? and contraseña = sha2(?,256);";
+                " from usuario where correo = ? and password = sha2(?,256);";
 
         try (Connection connection = this.getConection();
              PreparedStatement pstmt = connection.prepareStatement(sql);) {
@@ -47,7 +47,7 @@ public class MainDao extends DaoBase{
                              String especialidad, String edad, String contrasenha) {
 
 
-        String sql = "insert into usuario(idusuario, nombre, apellido, edad, correo, especialidad, contraseña, gasto) values (?,?,?,?,?,?,sha2(?,256),0);";
+        String sql = "insert into usuario(idusuario, nombre, apellido, edad, correo, especialidad, password, gasto) values (?,?,?,?,?,?,sha2(?,256),0);";
 
         try (Connection connection = this.getConection();
              PreparedStatement pstmt = connection.prepareStatement(sql);) {

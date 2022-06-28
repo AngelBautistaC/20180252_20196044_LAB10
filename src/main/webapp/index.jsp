@@ -31,7 +31,7 @@
                     <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Contraseña">
                 </div>
                 <% if (request.getParameter("error") != null) { %>
-                <div class="text-danger mb-2">Error en usuario o contraseña</div>
+                <div class="text-danger mb-2">Error en usuario o contraseña <br> ...O ¿tal vez tu especialdad no es "ingenieria de telecomunicaciones"? </div>
                 <%}%>
                 <div class="boton"><button type="submit" class="btn btn-outline-primary">Ingresar</button></div>
 

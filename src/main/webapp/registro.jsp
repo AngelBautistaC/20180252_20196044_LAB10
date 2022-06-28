@@ -31,18 +31,20 @@
           <div class="card-body">
 
             <form class="form-login" style="width: 80%; margin-left: 10%; margin-top: 3%;" method="POST" action="<%=request.getContextPath()%>/RegistroServlet">
+              <hr class="mx-n3">
 
-            <div class="row align-items-center pt-4 pb-3">
-              <div class="col-md-3 ps-5">
-                <h6 class="mb-0">Nombres: (*)</h6>
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
 
+                  <h6 class="mb-0">Nombres: (*)</h6>
+
+                </div>
+                <div class="col-md-9 pe-5">
+                  <label for="nombre" class="form-label"></label>
+                  <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Nombre" required="required" pattern="^[a-zA-Z][\sa-zA-Z0-9]*" title="No se acepta que el primer caracter sea espacio/primer caracter sea numero">
+                </div>
               </div>
-              <div class="col-md-9 pe-5">
-                <label for="nombre" class="form-label"></label>
-                <input type="text" name="nombre" id="nombre" class="form-control form-control-lg" placeholder="Nombre" required="required" />
 
-              </div>
-            </div>
 
             <hr class="mx-n3">
 
@@ -54,8 +56,7 @@
               </div>
               <div class="col-md-9 pe-5">
                 <label for="apellido" class="form-label"></label>
-                <input type="text" name="apellido" id="apellido" class="form-control form-control-lg" placeholder="Apellido" required="required"/>
-
+                <input type="text" name="apellido" id="apellido" class="form-control " placeholder="Apellido" required="required" pattern="^[a-zA-Z][\sa-zA-Z0-9]*" title="No se acepta que el primer caracter sea espacio/primer caracter sea numero">
               </div>
             </div>
 
@@ -69,7 +70,7 @@
               </div>
               <div class="col-md-9 pe-5">
                 <label for="edad" class="form-label"></label>
-                <input type="number" name="edad" id="edad" class="form-control form-control-lg" placeholder="edad" required="required"/>
+                <input type="number" name="edad" id="edad" class="form-control" placeholder="edad" required="required" min="18" max="30" title="Debes ser mayor de edad ó tener menos de 30 años para registrarte">
 
               </div>
             </div>
@@ -84,7 +85,7 @@
               </div>
               <div class="col-md-9 pe-5">
                 <label for="codigo" class="form-label" ></label>
-                <input type="number" name="codigo" id="codigo" class="form-control form-control-lg" maxlength="8" minlength="8" pattern="[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" placeholder="Código" required="required"/>
+                <input type="text" class="form-control" id="codigo" name="codigo" pattern="[0-9]*" required="required" placeholder="Código PUCP"  minlength="8" maxlength = "8" title="El Código debe tener 8 numeros">
 
               </div>
             </div>
@@ -99,7 +100,7 @@
               </div>
               <div class="col-md-9 pe-5">
                 <label for="correo" class="form-label" ></label>
-                <input type="email" name="correo" id="correo" class="form-control form-control-lg" placeholder="mi.correo@pucp.edu.pe" required="required"/>
+                <input type="email" name="correo" id="correo" class="form-control" placeholder="mi.correo@pucp.edu.pe" required="required">
 
               </div>
             </div>
@@ -114,7 +115,7 @@
               </div>
               <div class="col-md-9 pe-5">
                 <label for="especialidad" class="form-label" ></label>
-                <input type="text" name="especialidad" id="especialidad" class="form-control form-control-lg" placeholder="Especialidad" required="required"/>
+                <input type="text" name="especialidad" id="especialidad" class="form-control" placeholder="Especialidad" required="required">
 
               </div>
             </div>
@@ -130,7 +131,8 @@
               </div>
               <div class="col-md-9 pe-5">
                 <label for="contrasenha" class="form-label" ></label>
-                <input type="password" name="contrasenha" id="contrasenha" class="form-control form-control-lg" placeholder="Contraseña" required="required"/>
+                <input type="password" onkeyup='check();' name="contrasenha" id="contrasenha" class="form-control" placeholder="Confirme la Contraseña" required="required" pattern="(?=.*\d)(?=.*[A-Z])(?=.*?[#?!@$%^&*-]).{3,}"
+                       title="La contraseña debe contener, como mínimo, una mayúscula, un número y un carácter especial (#?!@$%^&*-)">
 
               </div>
             </div>
@@ -146,7 +148,9 @@
               </div>
               <div class="col-md-9 pe-5">
                 <label for="confirm_contrasenha" class="form-label" ></label>
-                <input type="password" name="correo" id="confirm_contrasenha" class="form-control form-control-lg" placeholder="Confirme la Contraseña" required="required"/>
+                <input type="password" onkeyup='check();' name="confirm_contrasenha" id="confirm_contrasenha" class="form-control" placeholder="Confirme la Contraseña" required="required" pattern="(?=.*\d)(?=.*[A-Z])(?=.*?[#?!@$%^&*-]).{3,}"
+                       title="La contraseña debe tener, como mínimo, una mayúscula, un número y un carácter especial (#?!@$%^&*-)">
+                <span id='message'></span>
 
               </div>
             </div>
@@ -156,7 +160,11 @@
             <hr class="mx-n3">
 
             <div class="px-5 py-4">
-              <button type="submit" class="btn btn-primary btn-lg">Registrarse</button>
+
+              <div id="ocultocontra">
+
+              </div>
+
             </div>
             </form>
           </div>
@@ -168,4 +176,19 @@
 </section>
 
 </body>
+
+<script>
+  var check = function() {
+    if (document.getElementById('contrasenha').value ==
+            document.getElementById('confirm_contrasenha').value) {
+      document.getElementById('message').style.color = 'green';
+      document.getElementById('message').innerHTML = 'Las contraseñas coinciden :)';
+      document.getElementById('ocultocontra').innerHTML = '<button type="submit" class="btn btn-primary btn-lg">Registrarse</button>';
+    } else {
+      document.getElementById('message').style.color = 'red';
+      document.getElementById('message').innerHTML = 'Las contraseñas no coinciden';
+      document.getElementById('ocultocontra').innerHTML = '<button type="submit" class="btn btn-primary btn-lg " disabled>Registrarse</button>';
+    }
+  }
+</script>
 </html>

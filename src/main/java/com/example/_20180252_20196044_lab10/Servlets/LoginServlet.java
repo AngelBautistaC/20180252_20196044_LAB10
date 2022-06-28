@@ -7,6 +7,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.Objects;
 
 @WebServlet(name = "LoginServlet", value = "/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -45,12 +46,13 @@ public class LoginServlet extends HttpServlet {
 
         Usuario usuario =mainDao.validarUsuarioPassword(username, password);
 
-        if (usuario != null) { //existe usuario y password
+        if (usuario != null && Objects.equals(usuario.getEspecialidad(), "ingenieria de telecomunicaciones")) { //existe usuario y password
             HttpSession session = request.getSession();
             session.setAttribute("usuarioLogueado", usuario);
             session.setMaxInactiveInterval(60 * 10);
 
             response.sendRedirect(request.getContextPath() + "/MainServlet");
+
         } else {
             response.sendRedirect(request.getContextPath() + "/LoginServlet?error");
         }

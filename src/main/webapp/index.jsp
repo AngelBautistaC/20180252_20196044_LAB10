@@ -40,7 +40,7 @@
 
         <!-- Button trigger modal -->
         <div class="d-flex justify-content-center" STYLE="margin-top: 15px"><button type="button" class="btn btn-link" STYLE="background-color: white">
-            <a href="registro.jsp">Soy nuevo y quiero registrarme</a>
+            <a href="<%=request.getContextPath()%>/RegistroServlet">Soy nuevo y quiero registrarme</a>
         </button></div>
 
 

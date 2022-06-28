@@ -30,7 +30,7 @@
         <div class="card" style="border-radius: 15px;">
           <div class="card-body">
 
-            <form class="form-login" style="width: 80%; margin-left: 10%; margin-top: 3%;" method="POST" action="<%=request.getContextPath()%>/LoginServlet?a=registro">
+            <form class="form-login" style="width: 80%; margin-left: 10%; margin-top: 3%;" method="POST" action="<%=request.getContextPath()%>/RegistroServlet">
 
             <div class="row align-items-center pt-4 pb-3">
               <div class="col-md-3 ps-5">

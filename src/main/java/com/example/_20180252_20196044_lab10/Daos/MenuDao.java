@@ -73,4 +73,35 @@ public class MenuDao extends DaoBase {
 
         return listaMenu;
     }
+
+
+    public void actualizarcompra (Compra compra){
+
+        String sql = "UPDATE compra set num_tickets=?,gasto_total=? where idcompra=?;";
+
+        try (Connection connection = this.getConection();
+             PreparedStatement pstmt = connection.prepareStatement(sql);) {
+
+
+            pstmt.setInt(1, compra.getNumtickets());
+            pstmt.setFloat(2, compra.getGastototal());
+            pstmt.setInt(3, compra.getIdCompra());
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
 }

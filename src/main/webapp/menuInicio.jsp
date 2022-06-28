@@ -109,20 +109,38 @@
         <%
             for (Compra compra:listaMenu) {
         %>
-        <tr>
 
+        <tr>
+            <form method="POST" action="<%=request.getContextPath()%>/MenuServlet?a=actualizarViaje">
             <td><%= compra.getViaje().getIdViaje()%></td>
             <td><%= compra.getFechaReserva()%></td>
             <td><%= compra.getViaje().getFechaViaje()%></td>
             <td><%= compra.getViaje().getOrigen()%></td>
             <td><%= compra.getViaje().getDestino()%></td>
+
             <td><%= compra.getSeguro()%></td>
-            <td><%= compra.getNumtickets()%></td>
+                <%float gasto_total= compra.getNumtickets()*compra.getViaje().getCostounit();%>
+
+            <td>
+                <input  name="conseguirIdcompra"  type="hidden" value="<%= compra.getIdCompra()%>">
+                <input  name="conseguirgastoTotal"  type="hidden" value="<%=gasto_total%>">
+                <input  name="conseguirNumeroTickets"  type="number" class="form-control" required="required" min="1" max="100" value="<%= compra.getNumtickets()%>">
+
+            </td>
+
             <td><%= compra.getViaje().getCostounit()%></td>
-            <td><%= compra.getGastototal()%></td>
-            <td><button class="btn btn-primary">Editar Viaje</button></td>
+
+
+
+            <td><%="S/."+gasto_total%></td>
+
+            <td><button type="submit" class="btn btn-primary">Editar Viaje</button></td>
+            </form>
+
             <td><button class="btn btn-warning">Eliminar Viaje</button></td>
+
         </tr>
+
         <%
             }%>
 

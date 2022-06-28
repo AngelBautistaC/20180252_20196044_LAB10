@@ -7,6 +7,24 @@ public class Viaje {
     private int idViaje;
     private Date fechaViaje;
     private Float costounit;
+    private String origen;
+    private String destino;
+
+    public String getOrigen() {
+        return origen;
+    }
+
+    public void setOrigen(String origen) {
+        this.origen = origen;
+    }
+
+    public String getDestino() {
+        return destino;
+    }
+
+    public void setDestino(String destino) {
+        this.destino = destino;
+    }
 
     public int getIdViaje() {
         return idViaje;

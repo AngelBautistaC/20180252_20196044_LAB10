@@ -3,7 +3,7 @@
   User: Angel
   Date: 0027, 27 de junio del 2022
   Time: 07:58p. m.
-  To change this template use File | Settings | File Templates.
+  To change this template use File | Settings | File Templates.2
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -29,7 +29,7 @@
 
         <div class="card" style="border-radius: 15px;">
           <div class="card-body">
-
+            <a href="<%=request.getContextPath()%>/" style="color: black">Volver al Inicio ⬅️</a>
             <form class="form-login" style="width: 80%; margin-left: 10%; margin-top: 3%;" method="POST" action="<%=request.getContextPath()%>/RegistroServlet">
               <hr class="mx-n3">
 

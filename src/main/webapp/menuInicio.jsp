@@ -7,6 +7,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<jsp:useBean id="usuarioLogueado" class="com.example._20180252_20196044_lab10.Beans.Usuario" scope="session" type="com.example._20180252_20196044_lab10.Beans.Usuario"/>
+
 <% int a=0;%>
 <%
     ArrayList<Compra> listaMenu =  (ArrayList<Compra>) request.getAttribute("listaMenu");
@@ -39,21 +42,23 @@
 
     <nav class="navbar navbar-light"
 
-    <%/*COLOR DORADO(MIEMBRO GOLD)*/ if (a==1){%>
+    <%/*COLOR DORADO(MIEMBRO GOLD)*/ if (usuarioLogueado.getGasto()>1000.0 && usuarioLogueado.getGasto()<10000.0){%>
             style="background-color: #DAA520" <% }%>
-            <%/*COLOR PLATEADO(MIEMBRO SILVER)*/ if (a==0){%>
+            <%/*COLOR PLATEADO(MIEMBRO SILVER)*/ if (usuarioLogueado.getGasto()>100.0 && usuarioLogueado.getGasto()<1000.0){%>
          style="background-color: #C0C0C0" <% }%>
 
-            <%/*COLOR AZUL (NORMAL)*/ if (a==3){%>
+            <%/*COLOR AZUL (NORMAL)*/ if (usuarioLogueado.getGasto() < 100){%>
          style="background-color: #214b9f" <% }%>
-            <%/*COLOR NEGRO (MIEMBRO PLATINUM)*/ if (a==4){%>
+            <%/*COLOR NEGRO (MIEMBRO PLATINUM)*/ if (usuarioLogueado.getGasto() > 10000.0){%>
          style="background-color: #000000" <% }%>
     >
 
         <h1 class="glow" style="color: white; ">Menu del TeleViajero</h1>
-        <p class="my-1 mx-1" STYLE="color: white;font-weight: bold">Bienvenido, Tunombre Tuapellido<br>Status: Platinum </p>
+        <p class="my-1 mx-1" STYLE="color: white;font-weight: bold">Bienvenido <%=usuarioLogueado.getFirstName()%> <%=usuarioLogueado.getLastName()%><br>Status: Platinum </p>
         <div class="nav2">
-            <button type="button" class="btn btn-danger"><p class="my-1 mx-1" STYLE="color: white"> Cerrar sesión</p></button>
+            <a href="<%=request.getContextPath()%>/LoginServlet?action=logout">
+                <button type="button" class="btn btn-danger"><p class="my-1 mx-1" STYLE="color: white"> Cerrar sesión</p></button>
+            </a>
             <!--<a href="${pageContext.request.contextPath}/index.jsp" class="my-1 mx-1" style="color: white;font-weight: bold;font-size: 17px;font-family: Arial">⠀<i class="bi bi-house-fill"></i> </a> -->
 
         </div>

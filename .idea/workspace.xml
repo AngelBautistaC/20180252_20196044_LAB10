@@ -9,21 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="55a7b037-732e-4d7a-9e1d-2f0f09cb6c52" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/_20180252_20196044_LAB10_war.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/_20180252_20196044_LAB10_war_exploded.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/webContexts.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/mysql-connector-java-8.0.29.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/_20180252_20196044_lab10/Beans/Compra.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/_20180252_20196044_lab10/Beans/Usuario.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/_20180252_20196044_lab10/Beans/Viaje.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/_20180252_20196044_lab10/Daos/DaoBase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/_20180252_20196044_lab10/Daos/MainDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/_20180252_20196044_lab10/Servlets/LoginServlet.java" afterDir="false" />
+    <list default="true" id="55a7b037-732e-4d7a-9e1d-2f0f09cb6c52" name="Changes" comment="Login terminado">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/_20180252_20196044_lab10/Servlets/RegistroServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_20180252_20196044_lab10/Daos/MainDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_20180252_20196044_lab10/Daos/MainDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/registro.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/registro.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +24,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="package-info" />
       </list>
     </option>
   </component>
@@ -71,9 +62,10 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/mysql-connector-java-8.0.29.jar" />
-    <property name="project.structure.last.edited" value="Libraries" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2735632" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -178,8 +170,18 @@
       <option name="presentableId" value="Default" />
       <updated>1656375138427</updated>
       <workItem from="1656375140133" duration="2000" />
-      <workItem from="1656376681063" duration="9152000" />
+      <workItem from="1656376681063" duration="9636000" />
+      <workItem from="1656432693630" duration="4494000" />
+      <workItem from="1656440905636" duration="1906000" />
     </task>
+    <task id="LOCAL-00001" summary="Login terminado">
+      <created>1656397141769</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1656397141769</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -195,5 +197,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Login terminado" />
+    <option name="LAST_COMMIT_MESSAGE" value="Login terminado" />
   </component>
 </project>

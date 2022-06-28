@@ -30,15 +30,16 @@
         <div class="card" style="border-radius: 15px;">
           <div class="card-body">
 
+            <form class="form-login" style="width: 80%; margin-left: 10%; margin-top: 3%;" method="POST" action="<%=request.getContextPath()%>/LoginServlet?a=registro">
+
             <div class="row align-items-center pt-4 pb-3">
               <div class="col-md-3 ps-5">
-
-                <h6 class="mb-0">Nombre</h6>
+                <h6 class="mb-0">Nombres: (*)</h6>
 
               </div>
               <div class="col-md-9 pe-5">
-
-                <input type="text" class="form-control form-control-lg" placeholder="Nombre" required="required" />
+                <label for="nombre" class="form-label"></label>
+                <input type="text" name="nombre" id="nombre" class="form-control form-control-lg" placeholder="Nombre" required="required" />
 
               </div>
             </div>
@@ -48,12 +49,12 @@
             <div class="row align-items-center py-3">
               <div class="col-md-3 ps-5">
 
-                <h6 class="mb-0">Apellido</h6>
+                <h6 class="mb-0">Apellidos: (*)</h6>
 
               </div>
               <div class="col-md-9 pe-5">
-
-                <input type="text" class="form-control form-control-lg" placeholder="Apellido" required="required"/>
+                <label for="apellido" class="form-label"></label>
+                <input type="text" name="apellido" id="apellido" class="form-control form-control-lg" placeholder="Apellido" required="required"/>
 
               </div>
             </div>
@@ -63,12 +64,12 @@
             <div class="row align-items-center py-3">
               <div class="col-md-3 ps-5">
 
-                <h6 class="mb-0">Edad</h6>
+                <h6 class="mb-0">Edad: (*)</h6>
 
               </div>
               <div class="col-md-9 pe-5">
-
-                <input type="number" class="form-control form-control-lg" placeholder="edad" required="required"/>
+                <label for="edad" class="form-label"></label>
+                <input type="number" name="edad" id="edad" class="form-control form-control-lg" placeholder="edad" required="required"/>
 
               </div>
             </div>
@@ -78,12 +79,12 @@
             <div class="row align-items-center py-3">
               <div class="col-md-3 ps-5">
 
-                <h6 class="mb-0">Código PUCP</h6>
+                <h6 class="mb-0">Código PUCP: (*)</h6>
 
               </div>
               <div class="col-md-9 pe-5">
-
-                <input type="number" class="form-control form-control-lg" placeholder="Código" required="required"/>
+                <label for="codigo" class="form-label" ></label>
+                <input type="number" name="codigo" id="codigo" class="form-control form-control-lg" maxlength="8" minlength="8" pattern="[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" placeholder="Código" required="required"/>
 
               </div>
             </div>
@@ -93,12 +94,12 @@
             <div class="row align-items-center py-3">
               <div class="col-md-3 ps-5">
 
-                <h6 class="mb-0">Correo PUCP</h6>
+                <h6 class="mb-0">Correo PUCP: (*)</h6>
 
               </div>
               <div class="col-md-9 pe-5">
-
-                <input type="email" class="form-control form-control-lg" placeholder="mi.correo@pucp.edu.pe" required="required"/>
+                <label for="correo" class="form-label" ></label>
+                <input type="email" name="correo" id="correo" class="form-control form-control-lg" placeholder="mi.correo@pucp.edu.pe" required="required"/>
 
               </div>
             </div>
@@ -108,28 +109,12 @@
             <div class="row align-items-center py-3">
               <div class="col-md-3 ps-5">
 
-                <h6 class="mb-0">Especialidad</h6>
+                <h6 class="mb-0">Especialidad: (*)</h6>
 
               </div>
               <div class="col-md-9 pe-5">
-
-                <input type="text" class="form-control form-control-lg" placeholder="Especialidad" required="required"/>
-
-              </div>
-            </div>
-
-
-            <hr class="mx-n3">
-
-            <div class="row align-items-center py-3">
-              <div class="col-md-3 ps-5">
-
-                <h6 class="mb-0">Contraseña</h6>
-
-              </div>
-              <div class="col-md-9 pe-5">
-
-                <input type="password" class="form-control form-control-lg" placeholder="Contraseña" required="required"/>
+                <label for="especialidad" class="form-label" ></label>
+                <input type="text" name="especialidad" id="especialidad" class="form-control form-control-lg" placeholder="Especialidad" required="required"/>
 
               </div>
             </div>
@@ -140,12 +125,28 @@
             <div class="row align-items-center py-3">
               <div class="col-md-3 ps-5">
 
-                <h6 class="mb-0">Confirme la contraseña</h6>
+                <h6 class="mb-0">Contraseña: (*)</h6>
 
               </div>
               <div class="col-md-9 pe-5">
+                <label for="contrasenha" class="form-label" ></label>
+                <input type="password" name="contrasenha" id="contrasenha" class="form-control form-control-lg" placeholder="Contraseña" required="required"/>
 
-                <input type="password" class="form-control form-control-lg" placeholder="Confirme la Contraseña" required="required"/>
+              </div>
+            </div>
+
+
+            <hr class="mx-n3">
+
+            <div class="row align-items-center py-3">
+              <div class="col-md-3 ps-5">
+
+                <h6 class="mb-0">Confirme la contraseña: (*)</h6>
+
+              </div>
+              <div class="col-md-9 pe-5">
+                <label for="confirm_contrasenha" class="form-label" ></label>
+                <input type="password" name="correo" id="confirm_contrasenha" class="form-control form-control-lg" placeholder="Confirme la Contraseña" required="required"/>
 
               </div>
             </div>
@@ -157,7 +158,7 @@
             <div class="px-5 py-4">
               <button type="submit" class="btn btn-primary btn-lg">Registrarse</button>
             </div>
-
+            </form>
           </div>
         </div>
 

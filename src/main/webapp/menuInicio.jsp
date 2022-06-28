@@ -93,6 +93,7 @@
             <th scope="col">Ciudad Destino</th>
             <th scope="col">Empresa de seguro</th>
             <th scope="col">Numero de boletos</th>
+            <th scope="col">Costo por boleto</th>
             <th scope="col">Costo Total</th>
             <th scope="col">Editar Viaje</th>
             <th scope="col">Eliminar Viaje</th>

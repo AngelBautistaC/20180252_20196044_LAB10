@@ -29,7 +29,7 @@
 
         <div class="card" style="border-radius: 15px;">
           <div class="card-body">
-
+            <a href="<%=request.getContextPath()%>/" style="color: black">Volver al Inicio ⬅️</a>
             <form class="form-login" style="width: 80%; margin-left: 10%; margin-top: 3%;" method="POST" action="<%=request.getContextPath()%>/RegistroServlet">
               <hr class="mx-n3">
 

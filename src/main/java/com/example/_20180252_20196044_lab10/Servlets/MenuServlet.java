@@ -20,10 +20,11 @@ public class MenuServlet extends HttpServlet {
 
         switch (action) {
             case "listar" -> {
-                ArrayList<Compra> listaMenu = menuDao.obtenerListaMenu(id);
+                int idUsuario = 12345678;
+                ArrayList<Compra> listaMenu = menuDao.obtenerListaMenu(idUsuario);
 
                 request.setAttribute("listaMenu", listaMenu);
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("Menu_usuariolog.jsp");
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("menuInicio.jsp");
                 requestDispatcher.forward(request,response);
             }
             case "listarViajes" -> {

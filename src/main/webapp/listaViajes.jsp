@@ -79,7 +79,8 @@
 
 
     <div class="d-flex flex-row bd-highlight mb-1">
-
+        <p class="titulo">
+            Lista de Viajes Disponibles</p>
     </div>
     <a href="<%=request.getContextPath()%>/MenuServlet">
         <button type="button" class="btn btn-warning" style="margin-top: -15px"><p class="my-1 mx-1" STYLE="color: white">Regresar</p></button>

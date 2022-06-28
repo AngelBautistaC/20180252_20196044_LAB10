@@ -1,4 +1,5 @@
-<%--
+<%@ page import="com.example._20180252_20196044_lab10.Beans.Compra" %>
+<%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
   User: Angel
   Date: 0028, 28 de junio del 2022
@@ -7,6 +8,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% int a=0;%>
+<%
+    ArrayList<Compra> listaMenu =  (ArrayList<Compra>) request.getAttribute("listaMenu");
+%>
 <html>
 <head>
     <!-- Required meta 2 tags -->
@@ -76,10 +80,12 @@
 
     <div class="d-flex flex-row bd-highlight mb-1">
         <p class="titulo">
-            Lista de Viajes</p>
+            Lista de Viajes Reservados</p>
 
     </div>
-    <button type="button" class="btn btn-success" style="margin-top: -15px"><p class="my-1 mx-1" STYLE="color: white">Añadir Viaje</p></button>
+    <a href="<%=request.getContextPath()%>/MenuServlet?a=listarViajes">
+        <button type="button" class="btn btn-success" style="margin-top: -15px"><p class="my-1 mx-1" STYLE="color: white">Añadir Viaje</p></button>
+    </a>
     <p><br></p>
 
 
@@ -100,19 +106,25 @@
         </tr>
         </thead>
         <tbody>
+        <%
+            for (Compra compra:listaMenu) {
+        %>
         <tr>
 
-            <td>123</td>
-            <td>fecha</td>
-            <td>fecha</td>
-            <td>origen</td>
-            <td>destino</td>
-            <td>seguro</td>
-            <td>2</td>
-            <td>S/ 29</td>
+            <td><%= compra.getViaje().getIdViaje()%></td>
+            <td><%= compra.getFechaReserva()%></td>
+            <td><%= compra.getViaje().getFechaViaje()%></td>
+            <td><%= compra.getViaje().getOrigen()%></td>
+            <td><%= compra.getViaje().getDestino()%></td>
+            <td><%= compra.getSeguro()%></td>
+            <td><%= compra.getNumtickets()%></td>
+            <td><%= compra.getViaje().getCostounit()%></td>
+            <td><%= compra.getGastototal()%></td>
             <td><button class="btn btn-primary">Editar Viaje</button></td>
             <td><button class="btn btn-warning">Eliminar Viaje</button></td>
         </tr>
+        <%
+            }%>
 
         </tbody>
     </table>

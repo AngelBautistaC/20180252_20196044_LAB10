@@ -51,7 +51,7 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("usuarioLogueado", usuario);
             session.setMaxInactiveInterval(60 * 10);
 
-            response.sendRedirect(request.getContextPath() + "/MainServlet");
+            response.sendRedirect(request.getContextPath() + "/MenuServlet");
 
         } else {
             response.sendRedirect(request.getContextPath() + "/LoginServlet?error");

@@ -17,33 +17,33 @@
 
 </head>
 <body>
+    <div class="container">
+        <img class="logo" src="logo.png" width="300" height="300" >
+        <p class="bienvenida"><b>Bienvenido TeleViajero</b></p>
+        <main class="form-signin">
+            <form method="post" action="<%=request.getContextPath()%>/LoginServlet">
+                <div class="mb-3">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" name="username" aria-describedby="emailHelp" placeholder="name@example.com">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Contraseña">
+                </div>
+                <% if (request.getParameter("error") != null) { %>
+                <div class="text-danger mb-2">Error en usuario o contraseña</div>
+                <%}%>
+                <div class="boton"><button type="submit" class="btn btn-outline-primary">Ingresar</button></div>
 
-<div class="container">
-    <img class="logo" src="logo.png" width="300" height="300" >
-    <p class="bienvenida"><b>Bienvenido TeleViajero</b></p>
-    <form>
-        <div class="mb-3">
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Usuario">
-        </div>
-        <div class="mb-3">
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Contraseña">
-        </div>
-
-        <div class="boton"><button type="button" class="btn btn-outline-primary">Ingresar</button></div>
-
-    </form>
-
-
-    <!-- Button trigger modal -->
-    <div class="d-flex justify-content-center" STYLE="margin-top: 15px"><button type="button" class="btn btn-link" STYLE="background-color: white">
-        <a href="registro.jsp">Soy nuevo y quiero registrarme</a>
-    </button></div>
+            </form>
 
 
+        <!-- Button trigger modal -->
+        <div class="d-flex justify-content-center" STYLE="margin-top: 15px"><button type="button" class="btn btn-link" STYLE="background-color: white">
+            <a href="registro.jsp">Soy nuevo y quiero registrarme</a>
+        </button></div>
 
 
-
-
-
+    </div>
 </body>
 </html>

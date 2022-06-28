@@ -3,7 +3,7 @@
   User: Angel
   Date: 0027, 27 de junio del 2022
   Time: 07:58p. m.
-  To change this template use File | Settings | File Templates.
+  To change this template use File | Settings | File Templates.2
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>

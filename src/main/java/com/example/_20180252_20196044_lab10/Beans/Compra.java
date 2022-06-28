@@ -9,6 +9,15 @@ public class Compra {
     private Float gastototal;
     private int numtickets;
     private Date fechaReserva;
+    private Viaje viaje;
+
+    public Viaje getViaje() {
+        return viaje;
+    }
+
+    public void setViaje(Viaje viaje) {
+        this.viaje = viaje;
+    }
 
     public int getIdCompra() {
         return idCompra;

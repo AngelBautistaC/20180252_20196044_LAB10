@@ -284,6 +284,24 @@ public class MenuDao extends DaoBase {
         }
         return idCompra;
     }
+
+    public void actualizarGastoUsuario (Float gastoUsuario, int idUsuario){
+
+        String sql = "UPDATE usuario set gasto = ? where idusuario = ?;";
+
+        try (Connection connection = this.getConection();
+             PreparedStatement pstmt = connection.prepareStatement(sql);) {
+
+            pstmt.setFloat(1, gastoUsuario);
+            pstmt.setInt(2, idUsuario);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
     /*
     public void actualizarGastoUsuarioTOTAL (int idUsuario){
         ArrayList<Float> listaGastosxCompras = new ArrayList<>();

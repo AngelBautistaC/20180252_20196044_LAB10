@@ -17,121 +17,133 @@ import java.util.ArrayList;
 public class MenuServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("a") == null ? "listar" : request.getParameter("a");
-        MenuDao menuDao = new MenuDao();
 
         HttpSession session = (HttpSession) request.getSession();
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioLogueado == null) {
+            response.sendRedirect(request.getContextPath());
+        }
+        else {
+            String action = request.getParameter("a") == null ? "listar" : request.getParameter("a");
+            MenuDao menuDao = new MenuDao();
 
-        switch (action) {
-            case "listar" -> {
-                int idUsuario = usuarioLogueado.getUsuarioId();
-                ArrayList<Compra> listaMenu = menuDao.obtenerListaMenu(idUsuario);
+            menuDao.actualizarGastoUsuario(usuarioLogueado.getGasto(), usuarioLogueado.getUsuarioId());
 
-                request.setAttribute("listaMenu", listaMenu);
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("menuInicio.jsp");
-                requestDispatcher.forward(request,response);
+            switch (action) {
+                case "listar" -> {
+                    int idUsuario = usuarioLogueado.getUsuarioId();
+                    ArrayList<Compra> listaMenu = menuDao.obtenerListaMenu(idUsuario);
+
+                    request.setAttribute("listaMenu", listaMenu);
+                    RequestDispatcher requestDispatcher = request.getRequestDispatcher("menuInicio.jsp");
+                    requestDispatcher.forward(request,response);
+                }
+                case "listarViajes" -> {
+                    ArrayList<Viaje> listaViajesDisp = menuDao.obtenerListaViajesDisponibles();
+
+                    //lista de seguros disponibles
+                    ArrayList<Seguro> listaSeguros = menuDao.obtenerSeguros();
+
+                    request.setAttribute("listaViajesDisp", listaViajesDisp);
+                    request.setAttribute("listaSeguros", listaSeguros);
+                    RequestDispatcher requestDispatcher = request.getRequestDispatcher("listaViajes.jsp");
+                    requestDispatcher.forward(request, response);
+                }
+
             }
-            case "listarViajes" -> {
-                ArrayList<Viaje> listaViajesDisp = menuDao.obtenerListaViajesDisponibles();
-
-                //lista de seguros disponibles
-                ArrayList<Seguro> listaSeguros = menuDao.obtenerSeguros();
-
-                request.setAttribute("listaViajesDisp", listaViajesDisp);
-                request.setAttribute("listaSeguros", listaSeguros);
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("listaViajes.jsp");
-                requestDispatcher.forward(request, response);
-            }
-
         }
 
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("a") == null ? "lista" : request.getParameter("a");
-        MenuDao menuDao = new MenuDao();
-
         HttpSession session = (HttpSession) request.getSession();
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
 
-        switch (action) {
-            case "actualizarViaje" -> {
-                Compra bcompra = leerParametrosRequest(request);
-                menuDao.actualizarcompra(bcompra);
+        if (usuarioLogueado == null) {
+            response.sendRedirect(request.getContextPath());
+        }
+        else {
+
+            String action = request.getParameter("a") == null ? "lista" : request.getParameter("a");
+            MenuDao menuDao = new MenuDao();
+
+            menuDao.actualizarGastoUsuario(usuarioLogueado.getGasto(), usuarioLogueado.getUsuarioId());
+
+            switch (action) {
+                case "actualizarViaje" -> {
+                    Compra bcompra = leerParametrosRequest(request);
+                    menuDao.actualizarcompra(bcompra);
 
 
-                int cantidad_tickets_nuevos=Integer.parseInt(request.getParameter("conseguirNumeroTickets"));
-                float costo_unitario=Float.parseFloat(request.getParameter("preciounitarioticket"));
-                int cantidad_tickets_anteriores=Integer.parseInt(request.getParameter("ticketsAnteriores"));
-                float gasto_total_anterior=costo_unitario*cantidad_tickets_anteriores;
-                float gasto_total_nuevo= costo_unitario*cantidad_tickets_nuevos;
-                float actualizacionEnGasto=gasto_total_nuevo-gasto_total_anterior;
-                int codigo=Integer.parseInt(request.getParameter("codigopuk"));
+                    int cantidad_tickets_nuevos = Integer.parseInt(request.getParameter("conseguirNumeroTickets"));
+                    float costo_unitario = Float.parseFloat(request.getParameter("preciounitarioticket"));
+                    int cantidad_tickets_anteriores = Integer.parseInt(request.getParameter("ticketsAnteriores"));
+                    float gasto_total_anterior = costo_unitario * cantidad_tickets_anteriores;
+                    float gasto_total_nuevo = costo_unitario * cantidad_tickets_nuevos;
+                    float actualizacionEnGasto = gasto_total_nuevo - gasto_total_anterior;
+                    int codigo = Integer.parseInt(request.getParameter("codigopuk"));
 
 
-                menuDao.actualizarCostoGeneral(actualizacionEnGasto,codigo);
+                    //menuDao.actualizarCostoGeneral(actualizacionEnGasto,codigo);
+                    usuarioLogueado.setGasto(usuarioLogueado.getGasto() - gasto_total_anterior + gasto_total_nuevo);
 
 
-
-
-
-
-                response.sendRedirect(request.getContextPath() + "/MenuServlet");
-            }
-
-            case "eliminarViaje" -> {
-                int idcompra= Integer.parseInt(request.getParameter("conseguirIdcompraB"));
-
-                float costo_unitario=Float.parseFloat(request.getParameter("preciounitarioticketE"));
-                int cantidad_tickets_anteriores=Integer.parseInt(request.getParameter("ticketsAnterioresE"));
-                float gasto_total_anterior=costo_unitario*cantidad_tickets_anteriores;
-
-
-                menuDao.eliminarViaje(idcompra);
-
-                int codigo=Integer.parseInt(request.getParameter("codigopukE"));
-                menuDao.actualizarCostoGeneralenEliminacion(gasto_total_anterior,codigo);
-
-
-
-                response.sendRedirect(request.getContextPath() + "/MenuServlet");
-            }
-
-
-
-            case "crearCompra" -> {
-                int idViaje = Integer.parseInt(request.getParameter("idViaje"));
-                int num_tickets = Integer.parseInt(request.getParameter("num_tickets"));
-                int idSeguro = Integer.parseInt(request.getParameter("seguro"));
-                Float costounit = Float.valueOf(request.getParameter("costounit"));
-                Float gastoTotal = num_tickets * costounit;
-
-                //Verificar si el usuario ya tiene una compra de ese viaje
-                if (menuDao.obtenerCompraxViajexUsuario(usuarioLogueado.getUsuarioId(), idViaje) == 0) {
-
-                    menuDao.crearCompra(usuarioLogueado.getUsuarioId(), idViaje, num_tickets, idSeguro, gastoTotal);
-                    //Actualizar el gasto del usuario
-                    menuDao.actualizarGastoUsuario(gastoTotal, usuarioLogueado.getGasto(), usuarioLogueado.getUsuarioId());
                     response.sendRedirect(request.getContextPath() + "/MenuServlet");
                 }
-                else {
-                    response.sendRedirect("MenuServlet?a=listarViajes&err=Error al comprar, usted ya ha comprado antes este viaje");
+
+                case "eliminarViaje" -> {
+                    int idcompra = Integer.parseInt(request.getParameter("conseguirIdcompraB"));
+
+                    float costo_unitario = Float.parseFloat(request.getParameter("preciounitarioticketE"));
+                    int cantidad_tickets_anteriores = Integer.parseInt(request.getParameter("ticketsAnterioresE"));
+                    float gasto_total_anterior = costo_unitario * cantidad_tickets_anteriores;
+
+
+                    menuDao.eliminarViaje(idcompra);
+
+                    int codigo = Integer.parseInt(request.getParameter("codigopukE"));
+                    //menuDao.actualizarCostoGeneralenEliminacion(gasto_total_anterior,codigo);
+
+                    //actualizar el gasto del usuario logueado
+
+                    usuarioLogueado.setGasto(usuarioLogueado.getGasto() - gasto_total_anterior);
+                    response.sendRedirect(request.getContextPath() + "/MenuServlet");
                 }
 
 
+                case "crearCompra" -> {
+                    int idViaje = Integer.parseInt(request.getParameter("idViaje"));
+                    int num_tickets = Integer.parseInt(request.getParameter("num_tickets"));
+                    int idSeguro = Integer.parseInt(request.getParameter("seguro"));
+                    Float costounit = Float.valueOf(request.getParameter("costounit"));
+                    Float gastoTotal = num_tickets * costounit;
+
+                    //Verificar si el usuario ya tiene una compra de ese viaje
+                    if (menuDao.obtenerCompraxViajexUsuario(usuarioLogueado.getUsuarioId(), idViaje) == 0) {
+
+                        menuDao.crearCompra(usuarioLogueado.getUsuarioId(), idViaje, num_tickets, idSeguro, gastoTotal);
+                        //Actualizar el gasto del usuario
+                        //menuDao.actualizarGastoUsuario(gastoTotal, usuarioLogueado.getGasto(), usuarioLogueado.getUsuarioId());
+                        Float cont = usuarioLogueado.getGasto() + gastoTotal;
+                        usuarioLogueado.setGasto(cont);
+                        response.sendRedirect(request.getContextPath() + "/MenuServlet");
+                    } else {
+                        response.sendRedirect("MenuServlet?a=listarViajes&err=Error al comprar, usted ya ha comprado antes este viaje");
+                    }
+
+
+                }
+                case "buscar" -> {
+                    String textoBuscar = request.getParameter("textoBuscar");
+                    request.setAttribute("textoBuscar", textoBuscar);
+                    request.setAttribute("listaMenu", menuDao.buscarPorOrigenDestino(textoBuscar, usuarioLogueado.getUsuarioId()));
+
+                    RequestDispatcher requestDispatcher = request.getRequestDispatcher("menuInicio.jsp");
+                    requestDispatcher.forward(request, response);
+                }
+
             }
-            case "buscar" -> {
-                String textoBuscar = request.getParameter("textoBuscar");
-                request.setAttribute("textoBuscar",textoBuscar);
-                request.setAttribute("listaMenu", menuDao.buscarPorOrigenDestino(textoBuscar, usuarioLogueado.getUsuarioId()));
-
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("menuInicio.jsp");
-                requestDispatcher.forward(request, response);
-            }
-
-
         }
 
     }

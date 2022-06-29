@@ -55,7 +55,14 @@
     >
 
         <h1 class="glow" style="color: white; ">Viajes de Telecos</h1>
-        <p class="my-1 mx-1" STYLE="color: white;font-weight: bold">Bienvenido <%=usuarioLogueado.getFirstName()%> <%=usuarioLogueado.getLastName()%><br>Status: Platinum </p>
+        <p class="my-1 mx-1" STYLE="color: white;font-weight: bold">Bienvenido <%=usuarioLogueado.getFirstName()%> <%=usuarioLogueado.getLastName()%><br>Status:
+            <%if (usuarioLogueado.getGasto()>1000.0 && usuarioLogueado.getGasto()<10000.0){ %> Gold <%}%>
+            <%if (usuarioLogueado.getGasto()>100.0 && usuarioLogueado.getGasto()<1000.0){ %> Silver <%}%>
+            <%if (usuarioLogueado.getGasto() < 100){ %> Normal <%}%>
+            <%if (usuarioLogueado.getGasto()> 10000.0){ %> Platinum <%}%>
+
+
+        </p>
         <div class="nav2">
             <a href="<%=request.getContextPath()%>/LoginServlet?action=logout">
                 <button type="button" class="btn btn-danger"><p class="my-1 mx-1" STYLE="color: white"> Cerrar sesión</p></button>

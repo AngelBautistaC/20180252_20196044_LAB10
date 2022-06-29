@@ -43,35 +43,25 @@
 
     <title>Menu de Inicio</title>
 
-    <%  float gasto=0;
-        for (Compra compra:listaMenu) { %>
-
-        <%gasto=gasto+compra.getNumtickets()*compra.getViaje().getCostounit();
-        %>
-
-    <%}%>
-
-
     <nav class="navbar navbar-light"
 
-
-    <%/*COLOR DORADO(MIEMBRO GOLD)*/ if (gasto>1000.0 && gasto<10000.0){%>
-            style="background-color: #DAA520" <% }%>
-            <%/*COLOR PLATEADO(MIEMBRO SILVER)*/ if (gasto>100.0 && gasto<1000.0){%>
+            <%/*COLOR DORADO(MIEMBRO GOLD)*/ if (usuarioLogueado.getGasto()>1000.0 && usuarioLogueado.getGasto()<10000.0){%>
+         style="background-color: #DAA520" <% }%>
+            <%/*COLOR PLATEADO(MIEMBRO SILVER)*/ if (usuarioLogueado.getGasto()>100.0 && usuarioLogueado.getGasto()<1000.0){%>
          style="background-color: #C0C0C0" <% }%>
 
-            <%/*COLOR AZUL (NORMAL)*/ if (gasto < 100){%>
+            <%/*COLOR AZUL (NORMAL)*/ if (usuarioLogueado.getGasto() < 100){%>
          style="background-color: #214b9f" <% }%>
-            <%/*COLOR NEGRO (MIEMBRO PLATINUM)*/ if (gasto > 10000.0){%>
+            <%/*COLOR NEGRO (MIEMBRO PLATINUM)*/ if (usuarioLogueado.getGasto() > 10000.0){%>
          style="background-color: #000000" <% }%>
     >
 
         <h1 class="glow" style="color: white; ">Menu del TeleViajero</h1>
         <p class="my-1 mx-1" STYLE="color: white;font-weight: bold">Bienvenido <%=usuarioLogueado.getFirstName()%> <%=usuarioLogueado.getLastName()%><br>Status:
-            <%if (gasto>1000.0 && gasto<10000.0){ %> Gold <%}%>
-            <%if (gasto>100.0 && gasto<1000.0){ %> Silver <%}%>
-            <%if (gasto < 100){ %> Normal <%}%>
-            <%if (gasto > 10000.0){ %> Platinum <%}%>
+            <%if (usuarioLogueado.getGasto()>1000.0 && usuarioLogueado.getGasto()<10000.0){ %> Gold <%}%>
+            <%if (usuarioLogueado.getGasto()>100.0 && usuarioLogueado.getGasto()<1000.0){ %> Silver <%}%>
+            <%if (usuarioLogueado.getGasto() < 100){ %> Normal <%}%>
+            <%if (usuarioLogueado.getGasto()> 10000.0){ %> Platinum <%}%>
 
 
         </p>

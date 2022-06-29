@@ -11,7 +11,7 @@ public class MainDao extends DaoBase{
     public Usuario validarUsuarioPassword(String username, String password) {
         Usuario usuario = null;
 
-        String sql = "select idusuario, nombre, apellido, edad, correo, especialidad, gasto" +
+        String sql = "select idusuario, nombre, apellido, edad, correo, especialidad, gasto,password" +
                 " from usuario where correo = ? and password = sha2(?,256);";
 
         try (Connection connection = this.getConection();
@@ -30,6 +30,7 @@ public class MainDao extends DaoBase{
                     usuario.setEmail(rs.getString(5));
                     usuario.setEspecialidad(rs.getString(6));
                     usuario.setGasto(rs.getFloat(7));
+                    usuario.setPassword(rs.getString(8));
 
 
                 }

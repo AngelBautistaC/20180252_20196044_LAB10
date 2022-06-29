@@ -49,6 +49,45 @@ public class MenuServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("a") == null ? "lista" : request.getParameter("a");
+        MenuDao menuDao = new MenuDao();
+
+        switch (action) {
+            case "actualizarViaje" -> {
+                Compra bcompra = leerParametrosRequest(request);
+                menuDao.actualizarcompra(bcompra);
+                response.sendRedirect(request.getContextPath() + "/MenuServlet");
+            }
+
+            case "eliminarViaje" -> {
+                int idcompra= Integer.parseInt(request.getParameter("conseguirIdcompraB"));
+                menuDao.eliminarViaje(idcompra);
+                response.sendRedirect(request.getContextPath() + "/MenuServlet");
+            }
+
+
+        }
 
     }
+
+
+
+
+    public Compra leerParametrosRequest(HttpServletRequest request) {
+        int idcompra= Integer.parseInt(request.getParameter("conseguirIdcompra"));
+        int cantidad_tickets=Integer.parseInt(request.getParameter("conseguirNumeroTickets"));
+        float gasto_total= Float.parseFloat(request.getParameter("conseguirgastoTotal"));
+        Compra bCompra= new Compra();
+
+        bCompra.setIdCompra(idcompra);
+        bCompra.setGastototal(gasto_total);
+        bCompra.setNumtickets(cantidad_tickets);
+
+        return bCompra;
+    }
+
+
+
+
+
 }

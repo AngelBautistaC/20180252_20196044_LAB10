@@ -1,5 +1,7 @@
 <%@ page import="com.example._20180252_20196044_lab10.Beans.Compra" %>
-<%@ page import="java.util.ArrayList" %><%--
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.security.MessageDigest" %>
+<%@ page import="java.util.Objects" %><%--
   Created by IntelliJ IDEA.
   User: Angel
   Date: 0028, 28 de junio del 2022
@@ -34,7 +36,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
 
 
 
@@ -114,20 +116,58 @@
         <%
             for (Compra compra:listaMenu) {
         %>
-        <tr>
 
+        <tr>
+            <form method="POST" action="<%=request.getContextPath()%>/MenuServlet?a=actualizarViaje">
             <td><%= compra.getViaje().getIdViaje()%></td>
             <td><%= compra.getFechaReserva()%></td>
             <td><%= compra.getViaje().getFechaViaje()%></td>
             <td><%= compra.getViaje().getOrigen()%></td>
             <td><%= compra.getViaje().getDestino()%></td>
+
             <td><%= compra.getSeguro()%></td>
-            <td><%= compra.getNumtickets()%></td>
+                <%float gasto_total= compra.getNumtickets()*compra.getViaje().getCostounit();%>
+
+            <td>
+                <input  name="conseguirIdcompra"  type="hidden" value="<%= compra.getIdCompra()%>">
+                <input  name="conseguirgastoTotal"  type="hidden" value="<%=gasto_total%>">
+                <input  name="conseguirNumeroTickets"  type="number" class="form-control" required="required" min="1" max="100" value="<%= compra.getNumtickets()%>">
+
+            </td>
+
             <td><%= compra.getViaje().getCostounit()%></td>
-            <td><%= compra.getGastototal()%></td>
-            <td><button class="btn btn-primary">Editar Viaje</button></td>
-            <td><button class="btn btn-warning">Eliminar Viaje</button></td>
+
+
+
+            <td><%="S/."+gasto_total%></td>
+
+            <td><button type="submit" class="btn btn-primary">Editar Viaje</button></td>
+            </form>
+
+            <td>
+                <button class="btn btn-warning" data-bs-toggle="collapse" data-bs-target="#demo<%=compra.getIdCompra()%>">Eliminar Viaje</button>
+                <form method="POST" action="<%=request.getContextPath()%>/MenuServlet?a=eliminarViaje">
+                    <input  name="conseguirIdcompraB"  type="hidden" value="<%= compra.getIdCompra()%>">
+
+                    <div id="demo<%=compra.getIdCompra()%>" class="collapse">
+
+                        <input class="form-control" onkeyup='check();' type="text" placeholder="Ingrese contraseña" id="contrasenha" required="required">
+
+                        <input class="form-control" onload='check();' type="hidden" id="confirm_contrasenha" value="<%=usuarioLogueado.getPassword()%>">
+
+                        <span id='message'></span>
+                        <div id="ocultocontra">
+
+                        </div>
+
+
+                        <!--<button class="btn btn-danger" type="submit">Eliminar Viaje</button>-->
+                    </div>
+                </form>
+            </td>
+
         </tr>
+
         <%
             }%>
 
@@ -142,4 +182,21 @@
 
 
 </body>
+
+<script>
+    var check = function() {
+
+        var pruebas= CryptoJS.SHA256(document.getElementById('contrasenha').value);
+
+        if ( pruebas==
+            document.getElementById('confirm_contrasenha').value) {
+            document.getElementById('ocultocontra').innerHTML = '<button type="submit" class="btn btn-danger btn-lg">Eliminar Viaje</button>';
+        } else {
+            document.getElementById('message').style.color = 'red';
+            document.getElementById('message').innerHTML = 'Las contraseñas no coinciden';
+            document.getElementById('ocultocontra').innerHTML = '<button type="submit" class="btn btn-danger btn-lg " disabled>Eliminar Viaje</button>';
+        }
+    }
+</script>
+
 </html>

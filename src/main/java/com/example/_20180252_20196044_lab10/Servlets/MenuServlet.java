@@ -60,14 +60,46 @@ public class MenuServlet extends HttpServlet {
             case "actualizarViaje" -> {
                 Compra bcompra = leerParametrosRequest(request);
                 menuDao.actualizarcompra(bcompra);
+
+
+                int cantidad_tickets_nuevos=Integer.parseInt(request.getParameter("conseguirNumeroTickets"));
+                float costo_unitario=Float.parseFloat(request.getParameter("preciounitarioticket"));
+                int cantidad_tickets_anteriores=Integer.parseInt(request.getParameter("ticketsAnteriores"));
+                float gasto_total_anterior=costo_unitario*cantidad_tickets_anteriores;
+                float gasto_total_nuevo= costo_unitario*cantidad_tickets_nuevos;
+                float actualizacionEnGasto=gasto_total_nuevo-gasto_total_anterior;
+                int codigo=Integer.parseInt(request.getParameter("codigopuk"));
+
+
+                menuDao.actualizarCostoGeneral(actualizacionEnGasto,codigo);
+
+
+
+
+
+
                 response.sendRedirect(request.getContextPath() + "/MenuServlet");
             }
 
             case "eliminarViaje" -> {
                 int idcompra= Integer.parseInt(request.getParameter("conseguirIdcompraB"));
+
+                float costo_unitario=Float.parseFloat(request.getParameter("preciounitarioticketE"));
+                int cantidad_tickets_anteriores=Integer.parseInt(request.getParameter("ticketsAnterioresE"));
+                float gasto_total_anterior=costo_unitario*cantidad_tickets_anteriores;
+
+
                 menuDao.eliminarViaje(idcompra);
+
+                int codigo=Integer.parseInt(request.getParameter("codigopukE"));
+                menuDao.actualizarCostoGeneralenEliminacion(gasto_total_anterior,codigo);
+
+
+
                 response.sendRedirect(request.getContextPath() + "/MenuServlet");
             }
+
+
 
             case "crearCompra" -> {
                 int idViaje = Integer.parseInt(request.getParameter("idViaje"));
@@ -109,7 +141,8 @@ public class MenuServlet extends HttpServlet {
     public Compra leerParametrosRequest(HttpServletRequest request) {
         int idcompra= Integer.parseInt(request.getParameter("conseguirIdcompra"));
         int cantidad_tickets=Integer.parseInt(request.getParameter("conseguirNumeroTickets"));
-        float gasto_total= Float.parseFloat(request.getParameter("conseguirgastoTotal"));
+        float costo_unitario=Float.parseFloat(request.getParameter("preciounitarioticket"));
+        float gasto_total= costo_unitario*cantidad_tickets;
         Compra bCompra= new Compra();
 
         bCompra.setIdCompra(idcompra);

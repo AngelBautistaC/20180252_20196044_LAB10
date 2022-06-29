@@ -133,6 +133,49 @@ public class MenuDao extends DaoBase {
 
     }
 
+
+    public void actualizarCostoGeneral (float costoGeneral,int codigo){
+
+        String sql = "update usuario set gasto=gasto+? where idusuario=?;";
+
+        try (Connection connection = this.getConection();
+             PreparedStatement pstmt = connection.prepareStatement(sql);) {
+
+            pstmt.setFloat(1, costoGeneral);
+            pstmt.setInt(2, codigo);
+
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void actualizarCostoGeneralenEliminacion (float costoGeneral,int codigo){
+
+        String sql = "update usuario set gasto=gasto-? where idusuario=?;";
+
+        try (Connection connection = this.getConection();
+             PreparedStatement pstmt = connection.prepareStatement(sql);) {
+
+            pstmt.setFloat(1, costoGeneral);
+            pstmt.setInt(2, codigo);
+
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+
+
+
     public void crearCompra (int idUsuario, int idViaje, int num_tickets, int idSeguro, Float gastoTotal){
 
         String sql = "INSERT into compra (usuario_idusuario, viaje_idviaje, seguro_idseguro, gasto_total, num_tickets, fecha_reserva)\n" +

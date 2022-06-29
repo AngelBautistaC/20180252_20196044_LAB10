@@ -42,21 +42,38 @@
 
     <title>Menu de Inicio</title>
 
+    <%  float gasto=0;
+        for (Compra compra:listaMenu) { %>
+
+        <%gasto=gasto+compra.getNumtickets()*compra.getViaje().getCostounit();
+        %>
+
+    <%}%>
+
+
     <nav class="navbar navbar-light"
 
-    <%/*COLOR DORADO(MIEMBRO GOLD)*/ if (usuarioLogueado.getGasto()>1000.0 && usuarioLogueado.getGasto()<10000.0){%>
+
+    <%/*COLOR DORADO(MIEMBRO GOLD)*/ if (gasto>1000.0 && gasto<10000.0){%>
             style="background-color: #DAA520" <% }%>
-            <%/*COLOR PLATEADO(MIEMBRO SILVER)*/ if (usuarioLogueado.getGasto()>100.0 && usuarioLogueado.getGasto()<1000.0){%>
+            <%/*COLOR PLATEADO(MIEMBRO SILVER)*/ if (gasto>100.0 && gasto<1000.0){%>
          style="background-color: #C0C0C0" <% }%>
 
-            <%/*COLOR AZUL (NORMAL)*/ if (usuarioLogueado.getGasto() < 100){%>
+            <%/*COLOR AZUL (NORMAL)*/ if (gasto < 100){%>
          style="background-color: #214b9f" <% }%>
-            <%/*COLOR NEGRO (MIEMBRO PLATINUM)*/ if (usuarioLogueado.getGasto() > 10000.0){%>
+            <%/*COLOR NEGRO (MIEMBRO PLATINUM)*/ if (gasto > 10000.0){%>
          style="background-color: #000000" <% }%>
     >
 
         <h1 class="glow" style="color: white; ">Menu del TeleViajero</h1>
-        <p class="my-1 mx-1" STYLE="color: white;font-weight: bold">Bienvenido <%=usuarioLogueado.getFirstName()%> <%=usuarioLogueado.getLastName()%><br>Status: Platinum </p>
+        <p class="my-1 mx-1" STYLE="color: white;font-weight: bold">Bienvenido <%=usuarioLogueado.getFirstName()%> <%=usuarioLogueado.getLastName()%><br>Status:
+            <%if (gasto>1000.0 && gasto<10000.0){ %> Gold <%}%>
+            <%if (gasto>100.0 && gasto<1000.0){ %> Silver <%}%>
+            <%if (gasto < 100){ %> Normal <%}%>
+            <%if (gasto > 10000.0){ %> Platinum <%}%>
+
+
+        </p>
         <div class="nav2">
             <a href="<%=request.getContextPath()%>/LoginServlet?action=logout">
                 <button type="button" class="btn btn-danger"><p class="my-1 mx-1" STYLE="color: white"> Cerrar sesión</p></button>
@@ -96,6 +113,7 @@
     <p><br></p>
 
 
+
     <table class="table table-hover table-dark">
         <thead>
         <tr>
@@ -115,7 +133,9 @@
         <tbody>
         <%
             for (Compra compra:listaMenu) {
+
         %>
+
 
         <tr>
             <form method="POST" action="<%=request.getContextPath()%>/MenuServlet?a=actualizarViaje">
@@ -125,13 +145,18 @@
             <td><%= compra.getViaje().getOrigen()%></td>
             <td><%= compra.getViaje().getDestino()%></td>
 
+
             <td><%= compra.getSeguro()%></td>
                 <%float gasto_total= compra.getNumtickets()*compra.getViaje().getCostounit();%>
 
             <td>
                 <input  name="conseguirIdcompra"  type="hidden" value="<%= compra.getIdCompra()%>">
-                <input  name="conseguirgastoTotal"  type="hidden" value="<%=gasto_total%>">
+                <input name="preciounitarioticket" type="hidden" value="<%= compra.getViaje().getCostounit()%>">
+                <input name="ticketsAnteriores" type="hidden" value="<%= compra.getNumtickets()%>">
+                <input name="codigopuk" type="hidden" value="<%=usuarioLogueado.getUsuarioId()%>">
+
                 <input  name="conseguirNumeroTickets"  type="number" class="form-control" required="required" min="1" max="100" value="<%= compra.getNumtickets()%>">
+                <input  name="conseguirgastoTotal"  type="hidden" value="<%=gasto_total%>">
 
             </td>
 
@@ -145,18 +170,21 @@
             </form>
 
             <td>
-                <button class="btn btn-warning" data-bs-toggle="collapse" data-bs-target="#demo<%=compra.getIdCompra()%>">Eliminar Viaje</button>
+                <button class="btn btn-warning" data-bs-toggle="collapse" data-bs-target="#demo<%=compra.getIdCompra()%>" aria-expanded="false">Eliminar Viaje</button>
                 <form method="POST" action="<%=request.getContextPath()%>/MenuServlet?a=eliminarViaje">
                     <input  name="conseguirIdcompraB"  type="hidden" value="<%= compra.getIdCompra()%>">
 
                     <div id="demo<%=compra.getIdCompra()%>" class="collapse">
 
-                        <input class="form-control" onkeyup='check();' type="text" placeholder="Ingrese contraseña" id="contrasenha" required="required">
+                        <input name="preciounitarioticketE" type="hidden" value="<%= compra.getViaje().getCostounit()%>">
 
-                        <input class="form-control" onload='check();' type="hidden" id="confirm_contrasenha" value="<%=usuarioLogueado.getPassword()%>">
+                        <input class="form-control" onkeyup='check<%=compra.getIdCompra()%>();' type="text" placeholder="Ingrese contraseña" id="contrasenha<%=compra.getIdCompra()%>" required="required">
+                        <input name="ticketsAnterioresE" type="hidden" value="<%= compra.getNumtickets()%>">
+                        <input name="codigopukE" type="hidden" value="<%=usuarioLogueado.getUsuarioId()%>">
+                        <input class="form-control" onload='check<%=compra.getIdCompra()%>();' type="hidden" id="confirm_contrasenha<%=compra.getIdCompra()%>" value="<%=usuarioLogueado.getPassword()%>" name="contra_hash">
 
-                        <span id='message'></span>
-                        <div id="ocultocontra">
+                        <span id='message<%=compra.getIdCompra()%>'></span>
+                        <div id="ocultocontra<%=compra.getIdCompra()%>">
 
                         </div>
 
@@ -184,19 +212,35 @@
 </body>
 
 <script>
-    var check = function() {
 
-        var pruebas= CryptoJS.SHA256(document.getElementById('contrasenha').value);
+
+
+
+
+
+
+    <%for (Compra compra:listaMenu) {%>
+
+
+
+
+    var check<%=compra.getIdCompra()%> = function() {
+
+        var pruebas= CryptoJS.SHA256(document.getElementById('contrasenha<%=compra.getIdCompra()%>').value);
 
         if ( pruebas==
-            document.getElementById('confirm_contrasenha').value) {
-            document.getElementById('ocultocontra').innerHTML = '<button type="submit" class="btn btn-danger btn-lg">Eliminar Viaje</button>';
+            document.getElementById('confirm_contrasenha<%=compra.getIdCompra()%>').value) {
+            document.getElementById('ocultocontra<%=compra.getIdCompra()%>').innerHTML = '<button type="submit" class="btn btn-danger btn-lg">Eliminar Viaje</button>';
+            document.getElementById('message<%=compra.getIdCompra()%>').style.color = 'green';
+            document.getElementById('message<%=compra.getIdCompra()%>').innerHTML = 'Las contraseñas coinciden';
         } else {
-            document.getElementById('message').style.color = 'red';
-            document.getElementById('message').innerHTML = 'Las contraseñas no coinciden';
-            document.getElementById('ocultocontra').innerHTML = '<button type="submit" class="btn btn-danger btn-lg " disabled>Eliminar Viaje</button>';
+            document.getElementById('message<%=compra.getIdCompra()%>').style.color = 'red';
+            document.getElementById('message<%=compra.getIdCompra()%>').innerHTML = 'Las contraseñas no coinciden';
+            document.getElementById('ocultocontra<%=compra.getIdCompra()%>').innerHTML = '<button type="submit" class="btn btn-danger btn-lg " disabled>Eliminar Viaje</button>';
         }
     }
+
+    <%}%>
 </script>
 
 </html>

@@ -51,6 +51,12 @@ public class MenuServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/MenuServlet");
             }
 
+            case "eliminarViaje" -> {
+                int idcompra= Integer.parseInt(request.getParameter("conseguirIdcompraB"));
+                menuDao.eliminarViaje(idcompra);
+                response.sendRedirect(request.getContextPath() + "/MenuServlet");
+            }
+
 
         }
 

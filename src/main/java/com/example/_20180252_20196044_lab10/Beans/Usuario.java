@@ -10,6 +10,17 @@ public class Usuario {
     private String especialidad;
     private Float gasto;
 
+
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public int getUsuarioId() {
         return usuarioId;
     }

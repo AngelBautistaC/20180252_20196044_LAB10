@@ -94,6 +94,23 @@ public class MenuDao extends DaoBase {
         }
 
     }
+    public void eliminarViaje (int idcompra){
+
+        String sql = "delete from compra where idcompra=?;";
+
+        try (Connection connection = this.getConection();
+             PreparedStatement pstmt = connection.prepareStatement(sql);) {
+
+            pstmt.setInt(1, idcompra);
+
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 
 
 

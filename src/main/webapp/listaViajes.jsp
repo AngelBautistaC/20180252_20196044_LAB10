@@ -92,7 +92,10 @@
         <button type="button" class="btn btn-warning" style="margin-top: -15px"><p class="my-1 mx-1" STYLE="color: white">Regresar</p></button>
     </a>
     <p><br></p>
-
+    <% if (request.getParameter("err") != null) {%>
+    <div class="alert alert-danger" role="alert"><%=request.getParameter("err")%>
+    </div>
+    <% } %>
 
     <table class="table table-hover table-dark">
         <thead>

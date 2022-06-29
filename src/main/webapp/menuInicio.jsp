@@ -11,6 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <jsp:useBean id="usuarioLogueado" class="com.example._20180252_20196044_lab10.Beans.Usuario" scope="session" type="com.example._20180252_20196044_lab10.Beans.Usuario"/>
+<jsp:useBean id="textoBuscar" scope="request" type="java.lang.String" class="java.lang.String" />
 
 <% int a=0;%>
 <%
@@ -95,6 +96,14 @@
     </a>
     <p><br></p>
 
+    <form method="post" action="<%=request.getContextPath()%>/MenuServlet?a=buscar">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Buscar por Ciudad de origen o destino"
+                   aria-label="Buscar por Ciudad de origen o destino" aria-describedby="button-addon2"
+                   name="textoBuscar" value="<%=textoBuscar%>" />
+            <button class="btn btn-outline-info" type="button" id="button-addon2">Buscar</button>
+        </div>
+    </form>
 
     <table class="table table-hover table-dark">
         <thead>

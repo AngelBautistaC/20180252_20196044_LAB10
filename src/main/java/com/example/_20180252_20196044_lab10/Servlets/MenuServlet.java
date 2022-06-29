@@ -73,21 +73,36 @@ public class MenuServlet extends HttpServlet {
                 int idViaje = Integer.parseInt(request.getParameter("idViaje"));
                 int num_tickets = Integer.parseInt(request.getParameter("num_tickets"));
                 int idSeguro = Integer.parseInt(request.getParameter("seguro"));
-
                 Float costounit = Float.valueOf(request.getParameter("costounit"));
                 Float gastoTotal = num_tickets * costounit;
 
-                menuDao.crearCompra(usuarioLogueado.getUsuarioId(), idViaje, num_tickets, idSeguro, gastoTotal);
+                //Verificar si el usuario ya tiene una compra de ese viaje
+                if (menuDao.obtenerCompraxViajexUsuario(usuarioLogueado.getUsuarioId(), idViaje) == 0) {
 
-                //Actualizar el gasto del usuario
-                response.sendRedirect(request.getContextPath() + "/MenuServlet");
+                    menuDao.crearCompra(usuarioLogueado.getUsuarioId(), idViaje, num_tickets, idSeguro, gastoTotal);
+                    //Actualizar el gasto del usuario
+                    menuDao.actualizarGastoUsuario(gastoTotal, usuarioLogueado.getGasto(), usuarioLogueado.getUsuarioId());
+                    response.sendRedirect(request.getContextPath() + "/MenuServlet");
+                }
+                else {
+                    response.sendRedirect("MenuServlet?a=listarViajes&err=Error al comprar, usted ya ha comprado antes este viaje");
+                }
+
+
+            }
+            case "buscar" -> {
+                String textoBuscar = request.getParameter("textoBuscar");
+                request.setAttribute("textoBuscar",textoBuscar);
+                request.setAttribute("listaMenu", menuDao.buscarPorOrigenDestino(textoBuscar, usuarioLogueado.getUsuarioId()));
+
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("menuInicio.jsp");
+                requestDispatcher.forward(request, response);
             }
 
 
         }
 
     }
-
 
 
 

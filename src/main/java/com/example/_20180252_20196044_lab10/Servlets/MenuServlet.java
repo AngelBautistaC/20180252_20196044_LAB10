@@ -1,6 +1,7 @@
 package com.example._20180252_20196044_lab10.Servlets;
 
 import com.example._20180252_20196044_lab10.Beans.Compra;
+import com.example._20180252_20196044_lab10.Beans.Seguro;
 import com.example._20180252_20196044_lab10.Beans.Usuario;
 import com.example._20180252_20196044_lab10.Beans.Viaje;
 import com.example._20180252_20196044_lab10.Daos.MainDao;
@@ -35,7 +36,7 @@ public class MenuServlet extends HttpServlet {
                 ArrayList<Viaje> listaViajesDisp = menuDao.obtenerListaViajesDisponibles();
 
                 //lista de seguros disponibles
-                ArrayList<String> listaSeguros = menuDao.obtenerSeguros();
+                ArrayList<Seguro> listaSeguros = menuDao.obtenerSeguros();
 
                 request.setAttribute("listaViajesDisp", listaViajesDisp);
                 request.setAttribute("listaSeguros", listaSeguros);
@@ -52,6 +53,9 @@ public class MenuServlet extends HttpServlet {
         String action = request.getParameter("a") == null ? "lista" : request.getParameter("a");
         MenuDao menuDao = new MenuDao();
 
+        HttpSession session = (HttpSession) request.getSession();
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+
         switch (action) {
             case "actualizarViaje" -> {
                 Compra bcompra = leerParametrosRequest(request);
@@ -62,6 +66,20 @@ public class MenuServlet extends HttpServlet {
             case "eliminarViaje" -> {
                 int idcompra= Integer.parseInt(request.getParameter("conseguirIdcompraB"));
                 menuDao.eliminarViaje(idcompra);
+                response.sendRedirect(request.getContextPath() + "/MenuServlet");
+            }
+
+            case "crearCompra" -> {
+                int idViaje = Integer.parseInt(request.getParameter("idViaje"));
+                int num_tickets = Integer.parseInt(request.getParameter("num_tickets"));
+                int idSeguro = Integer.parseInt(request.getParameter("seguro"));
+
+                Float costounit = Float.valueOf(request.getParameter("costounit"));
+                Float gastoTotal = num_tickets * costounit;
+
+                menuDao.crearCompra(usuarioLogueado.getUsuarioId(), idViaje, num_tickets, idSeguro, gastoTotal);
+
+                //Actualizar el gasto del usuario
                 response.sendRedirect(request.getContextPath() + "/MenuServlet");
             }
 

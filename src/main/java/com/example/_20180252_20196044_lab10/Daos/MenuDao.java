@@ -1,6 +1,7 @@
 package com.example._20180252_20196044_lab10.Daos;
 
 import com.example._20180252_20196044_lab10.Beans.Compra;
+import com.example._20180252_20196044_lab10.Beans.Seguro;
 import com.example._20180252_20196044_lab10.Beans.Viaje;
 
 import java.sql.*;
@@ -74,15 +75,17 @@ public class MenuDao extends DaoBase {
         return listaMenu;
     }
 
-    public java.util.ArrayList<String> obtenerSeguros() {
-        ArrayList<String> listaSeguros = new ArrayList<>();
+    public java.util.ArrayList<Seguro> obtenerSeguros() {
+        ArrayList<Seguro> listaSeguros = new ArrayList<>();
 
         try (Connection connection = this.getConection();
              Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery("select nombre from seguro;");) {
+             ResultSet rs = stmt.executeQuery("select * from seguro;");) {
 
             while (rs.next()) {
-                String seguro = rs.getString(1);
+                Seguro seguro = new Seguro();
+                seguro.setIdSeguro(rs.getInt(1));
+                seguro.setNombreSeguro(rs.getString(2));
                 listaSeguros.add(seguro);
             }
         } catch (SQLException e) {
@@ -130,6 +133,27 @@ public class MenuDao extends DaoBase {
 
     }
 
+    public void crearCompra (int idUsuario, int idViaje, int num_tickets, int idSeguro, Float gastoTotal){
+
+        String sql = "INSERT into compra (usuario_idusuario, viaje_idviaje, seguro_idseguro, gasto_total, num_tickets, fecha_reserva)\n" +
+                "values(?,?,?,?,?, current_date);";
+
+        try (Connection connection = this.getConection();
+             PreparedStatement pstmt = connection.prepareStatement(sql);) {
+
+            pstmt.setInt(1, idUsuario);
+            pstmt.setInt(2, idViaje);
+            pstmt.setInt(3, idSeguro);
+            pstmt.setFloat(4, gastoTotal);
+            pstmt.setInt(5, num_tickets);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 
 
 

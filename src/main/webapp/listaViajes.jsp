@@ -1,5 +1,6 @@
 <%@ page import="com.example._20180252_20196044_lab10.Beans.Viaje" %>
-<%@ page import="java.util.ArrayList" %><%--
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.example._20180252_20196044_lab10.Beans.Seguro" %><%--
   Created by IntelliJ IDEA.
   User: Angel
   Date: 0028, 28 de junio del 2022
@@ -12,7 +13,7 @@
 <% int a=0;%>
 <%
     ArrayList<Viaje> listaViajesDisp =  (ArrayList<Viaje>) request.getAttribute("listaViajesDisp");
-    ArrayList<String> listaSeguros = (ArrayList<String>) request.getAttribute("listaSeguros");
+    ArrayList<Seguro> listaSeguros = (ArrayList<Seguro>) request.getAttribute("listaSeguros");
 %>
 <html>
 <head>
@@ -110,7 +111,7 @@
         <%
             for (Viaje viaje:listaViajesDisp) {
         %>
-        <form method="post" action="<%=request.getContextPath()%>/MenuServlet?a=setNumtickets&id=<%=0%>">
+        <form method="post" action="<%=request.getContextPath()%>/MenuServlet?a=crearCompra&idViaje=<%=viaje.getIdViaje()%>&costounit=<%= viaje.getCostounit()%>">
         <tr>
             <td><%= viaje.getIdViaje()%></td>
             <td><%= viaje.getFechaViaje()%></td>
@@ -126,8 +127,8 @@
             <td>
                 <label class="form-label" for="seguro"></label>
                 <select name="seguro" id="seguro" class="form-control">
-                    <% for (String seguro:listaSeguros) {%>
-                    <option value="<%=seguro%>"><%=seguro%>
+                    <% for (Seguro seguro:listaSeguros) {%>
+                    <option value="<%=seguro.getIdSeguro()%>"><%=seguro.getNombreSeguro()%>
                     </option>
                     <% }%>
                 </select>

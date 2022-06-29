@@ -1,6 +1,7 @@
 package com.example._20180252_20196044_lab10.Servlets;
 
 import com.example._20180252_20196044_lab10.Beans.Compra;
+import com.example._20180252_20196044_lab10.Beans.Usuario;
 import com.example._20180252_20196044_lab10.Beans.Viaje;
 import com.example._20180252_20196044_lab10.Daos.MainDao;
 import com.example._20180252_20196044_lab10.Daos.MenuDao;
@@ -18,9 +19,12 @@ public class MenuServlet extends HttpServlet {
         String action = request.getParameter("a") == null ? "listar" : request.getParameter("a");
         MenuDao menuDao = new MenuDao();
 
+        HttpSession session = (HttpSession) request.getSession();
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+
         switch (action) {
             case "listar" -> {
-                int idUsuario = 12345678;
+                int idUsuario = usuarioLogueado.getUsuarioId();
                 ArrayList<Compra> listaMenu = menuDao.obtenerListaMenu(idUsuario);
 
                 request.setAttribute("listaMenu", listaMenu);
@@ -30,7 +34,11 @@ public class MenuServlet extends HttpServlet {
             case "listarViajes" -> {
                 ArrayList<Viaje> listaViajesDisp = menuDao.obtenerListaViajesDisponibles();
 
+                //lista de seguros disponibles
+                ArrayList<String> listaSeguros = menuDao.obtenerSeguros();
+
                 request.setAttribute("listaViajesDisp", listaViajesDisp);
+                request.setAttribute("listaSeguros", listaSeguros);
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("listaViajes.jsp");
                 requestDispatcher.forward(request, response);
             }

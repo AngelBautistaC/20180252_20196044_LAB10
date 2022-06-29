@@ -7,9 +7,12 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:useBean id="usuarioLogueado" class="com.example._20180252_20196044_lab10.Beans.Usuario" scope="session" type="com.example._20180252_20196044_lab10.Beans.Usuario"/>
+
 <% int a=0;%>
 <%
     ArrayList<Viaje> listaViajesDisp =  (ArrayList<Viaje>) request.getAttribute("listaViajesDisp");
+    ArrayList<String> listaSeguros = (ArrayList<String>) request.getAttribute("listaSeguros");
 %>
 <html>
 <head>
@@ -35,25 +38,27 @@
 
 
 
-    <title>Menu de Inicio</title>
+    <title>Viajes</title>
 
     <nav class="navbar navbar-light"
 
-            <%/*COLOR DORADO(MIEMBRO GOLD)*/ if (a==1){%>
+            <%/*COLOR DORADO(MIEMBRO GOLD)*/ if (usuarioLogueado.getGasto()>1000.0 && usuarioLogueado.getGasto()<10000.0){%>
          style="background-color: #DAA520" <% }%>
-            <%/*COLOR PLATEADO(MIEMBRO SILVER)*/ if (a==0){%>
+            <%/*COLOR PLATEADO(MIEMBRO SILVER)*/ if (usuarioLogueado.getGasto()>100.0 && usuarioLogueado.getGasto()<1000.0){%>
          style="background-color: #C0C0C0" <% }%>
 
-            <%/*COLOR AZUL (NORMAL)*/ if (a==3){%>
+            <%/*COLOR AZUL (NORMAL)*/ if (usuarioLogueado.getGasto() < 100){%>
          style="background-color: #214b9f" <% }%>
-            <%/*COLOR NEGRO (MIEMBRO PLATINUM)*/ if (a==4){%>
+            <%/*COLOR NEGRO (MIEMBRO PLATINUM)*/ if (usuarioLogueado.getGasto() > 10000.0){%>
          style="background-color: #000000" <% }%>
     >
 
-        <h1 class="glow" style="color: white; ">Menu del TeleViajero</h1>
-        <p class="my-1 mx-1" STYLE="color: white;font-weight: bold">Bienvenido, Tunombre Tuapellido<br>Status: Platinum </p>
+        <h1 class="glow" style="color: white; ">Viajes de Telecos</h1>
+        <p class="my-1 mx-1" STYLE="color: white;font-weight: bold">Bienvenido <%=usuarioLogueado.getFirstName()%> <%=usuarioLogueado.getLastName()%><br>Status: Platinum </p>
         <div class="nav2">
-            <button type="button" class="btn btn-danger"><p class="my-1 mx-1" STYLE="color: white"> Cerrar sesión</p></button>
+            <a href="<%=request.getContextPath()%>/LoginServlet?action=logout">
+                <button type="button" class="btn btn-danger"><p class="my-1 mx-1" STYLE="color: white"> Cerrar sesión</p></button>
+            </a>
             <!--<a href="${pageContext.request.contextPath}/index.jsp" class="my-1 mx-1" style="color: white;font-weight: bold;font-size: 17px;font-family: Arial">⠀<i class="bi bi-house-fill"></i> </a> -->
 
         </div>
@@ -97,6 +102,7 @@
             <th scope="col">Ciudad Destino</th>
             <th scope="col">Costo por boleto</th>
             <th scope="col">Seleccionar tickets</th>
+            <th scope="col">Seleccionar Seguro</th>
             <th scope="col">Añadir Viaje</th>
         </tr>
         </thead>
@@ -104,23 +110,33 @@
         <%
             for (Viaje viaje:listaViajesDisp) {
         %>
+        <form method="post" action="<%=request.getContextPath()%>/MenuServlet?a=setNumtickets&id=<%=0%>">
         <tr>
-
             <td><%= viaje.getIdViaje()%></td>
             <td><%= viaje.getFechaViaje()%></td>
             <td><%= viaje.getOrigen()%></td>
             <td><%= viaje.getDestino()%></td>
             <td>S/.<%= viaje.getCostounit()%></td>
             <td>
-                <form method="post" action="<%=request.getContextPath()%>/MenuServlet?a=setNumtickets&id=<%=0%>">
+
                     <label for="num_tickets" class="form-label"></label>
                     <input type="number" value = "1" name="num_tickets" id="num_tickets" min="1" max="10">
-                </form>
+
+            </td>
+            <td>
+                <label class="form-label" for="seguro"></label>
+                <select name="seguro" id="seguro" class="form-control">
+                    <% for (String seguro:listaSeguros) {%>
+                    <option value="<%=seguro%>"><%=seguro%>
+                    </option>
+                    <% }%>
+                </select>
             </td>
             <td>
                 <button class="btn btn-success btn-sm" type="submit">Seleccionar</button>
             </td>
         </tr>
+        </form>
             <%
             }%>
 

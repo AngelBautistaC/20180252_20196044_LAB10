@@ -73,4 +73,22 @@ public class MenuDao extends DaoBase {
 
         return listaMenu;
     }
+
+    public java.util.ArrayList<String> obtenerSeguros() {
+        ArrayList<String> listaSeguros = new ArrayList<>();
+
+        try (Connection connection = this.getConection();
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery("select nombre from seguro;");) {
+
+            while (rs.next()) {
+                String seguro = rs.getString(1);
+                listaSeguros.add(seguro);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return listaSeguros;
+    }
 }

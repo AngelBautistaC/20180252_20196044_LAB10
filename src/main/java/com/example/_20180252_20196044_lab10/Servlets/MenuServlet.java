@@ -24,6 +24,9 @@ public class MenuServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath());
         }
         else {
+
+
+
             String action = request.getParameter("a") == null ? "listar" : request.getParameter("a");
             MenuDao menuDao = new MenuDao();
 

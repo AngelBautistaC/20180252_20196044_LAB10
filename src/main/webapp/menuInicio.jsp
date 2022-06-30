@@ -194,7 +194,7 @@
 
                         <input name="preciounitarioticketE" type="hidden" value="<%= compra.getViaje().getCostounit()%>">
 
-                        <input class="form-control" onkeyup='check<%=compra.getIdCompra()%>();' type="text" placeholder="Ingrese contraseña" id="contrasenha<%=compra.getIdCompra()%>" required="required">
+                        <input class="form-control" onkeyup='check<%=compra.getIdCompra()%>();' type="password" placeholder="Ingrese contraseña" id="contrasenha<%=compra.getIdCompra()%>" required="required">
                         <input name="ticketsAnterioresE" type="hidden" value="<%= compra.getNumtickets()%>">
                         <input name="codigopukE" type="hidden" value="<%=usuarioLogueado.getUsuarioId()%>">
                         <input class="form-control" onload='check<%=compra.getIdCompra()%>();' type="hidden" id="confirm_contrasenha<%=compra.getIdCompra()%>" value="<%=usuarioLogueado.getPassword()%>" name="contra_hash">

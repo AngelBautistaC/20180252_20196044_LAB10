@@ -203,11 +203,11 @@ public class MenuDao extends DaoBase {
 
 
         String sql = "select c.idcompra, c.gasto_total, c.num_tickets, c.fecha_reserva, s.nombre AS 'Seguro', v.fecha_viaje, v.origen, v.destino, v.idviaje, v.costo_unit\n" +
-                "from compra c\n" +
-                "inner join seguro s on c.seguro_idseguro = s.idseguro\n" +
-                "INNER JOIN viaje v on c.viaje_idviaje = v.idviaje\n" +
-                "where lower(v.destino) like ? or lower(v.origen) like ?\n" +
-                "AND c.usuario_idusuario= ?";
+                "                from compra c\n" +
+                "                inner join seguro s on c.seguro_idseguro = s.idseguro\n" +
+                "                INNER JOIN viaje v on c.viaje_idviaje = v.idviaje\n" +
+                "                where (lower(v.destino) like ? or lower(v.origen) like ?)\n" +
+                "                AND c.usuario_idusuario= ?;";
 
         try (Connection connection = this.getConection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
@@ -302,6 +302,32 @@ public class MenuDao extends DaoBase {
         }
 
     }
+
+    public void nuevoViaje (int id,String fecha,float cunit,String origen, String destino){
+
+        String sql = "insert into viaje (idviaje,fecha_viaje,costo_unit,origen,destino) values (?,?,?,?,?);";
+
+        try (Connection connection = this.getConection();
+             PreparedStatement pstmt = connection.prepareStatement(sql);) {
+
+            pstmt.setInt(1, id);
+            pstmt.setString(2, fecha);
+            pstmt.setFloat(3,cunit);
+            pstmt.setString(4,origen);
+            pstmt.setString(5,destino);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+
+
+
     /*
     public void actualizarGastoUsuarioTOTAL (int idUsuario){
         ArrayList<Float> listaGastosxCompras = new ArrayList<>();

@@ -13,7 +13,7 @@
 <jsp:useBean id="usuarioLogueado" class="com.example._20180252_20196044_lab10.Beans.Usuario" scope="session" type="com.example._20180252_20196044_lab10.Beans.Usuario"/>
 <jsp:useBean id="textoBuscar" scope="request" type="java.lang.String" class="java.lang.String" />
 
-<% int a=0;%>
+
 <%
     ArrayList<Compra> listaMenu =  (ArrayList<Compra>) request.getAttribute("listaMenu");
 %>
@@ -45,23 +45,23 @@
 
     <nav class="navbar navbar-light"
 
-            <%/*COLOR DORADO(MIEMBRO GOLD)*/ if (usuarioLogueado.getGasto()>1000.0 && usuarioLogueado.getGasto()<10000.0){%>
+            <%/*COLOR DORADO(MIEMBRO GOLD)*/ if (usuarioLogueado.getGasto()>=1000 && usuarioLogueado.getGasto()<10000){%>
          style="background-color: #DAA520" <% }%>
-            <%/*COLOR PLATEADO(MIEMBRO SILVER)*/ if (usuarioLogueado.getGasto()>100.0 && usuarioLogueado.getGasto()<1000.0){%>
+            <%/*COLOR PLATEADO(MIEMBRO SILVER)*/ if (usuarioLogueado.getGasto()>=100 && usuarioLogueado.getGasto()<1000){%>
          style="background-color: #C0C0C0" <% }%>
 
             <%/*COLOR AZUL (NORMAL)*/ if (usuarioLogueado.getGasto() < 100){%>
          style="background-color: #214b9f" <% }%>
-            <%/*COLOR NEGRO (MIEMBRO PLATINUM)*/ if (usuarioLogueado.getGasto() > 10000.0){%>
+            <%/*COLOR NEGRO (MIEMBRO PLATINUM)*/ if (usuarioLogueado.getGasto() >= 10000){%>
          style="background-color: #000000" <% }%>
     >
 
         <h1 class="glow" style="color: white; ">Menu del TeleViajero</h1>
         <p class="my-1 mx-1" STYLE="color: white;font-weight: bold">Bienvenido <%=usuarioLogueado.getFirstName()%> <%=usuarioLogueado.getLastName()%><br>Status:
-            <%if (usuarioLogueado.getGasto()>1000.0 && usuarioLogueado.getGasto()<10000.0){ %> Gold <%}%>
-            <%if (usuarioLogueado.getGasto()>100.0 && usuarioLogueado.getGasto()<1000.0){ %> Silver <%}%>
+            <%if (usuarioLogueado.getGasto()>=1000 && usuarioLogueado.getGasto()<10000){ %> Gold <%}%>
+            <%if (usuarioLogueado.getGasto()>=100 && usuarioLogueado.getGasto()<1000){ %> Silver <%}%>
             <%if (usuarioLogueado.getGasto() < 100){ %> Normal <%}%>
-            <%if (usuarioLogueado.getGasto()> 10000.0){ %> Platinum <%}%>
+            <%if (usuarioLogueado.getGasto()>= 10000){ %> Platinum <%}%>
 
 
         </p>
@@ -97,6 +97,18 @@
         <p class="titulo">
             Lista de Viajes Reservados</p>
 
+
+
+        <% if (session.getAttribute("success") != null) {%>
+        <div class="d-inline-flex p-2" style="margin-top: 15px">
+            <div class="alert alert-success" role="alert"><%=session.getAttribute("success")%>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        <%session.removeAttribute("success"); } %>
+
     </div>
     <a href="<%=request.getContextPath()%>/MenuServlet?a=listarViajes">
         <button type="button" class="btn btn-success" style="margin-top: -15px"><p class="my-1 mx-1" STYLE="color: white">Añadir Viaje</p></button>
@@ -105,10 +117,11 @@
 
     <form method="post" action="<%=request.getContextPath()%>/MenuServlet?a=buscar">
         <div class="input-group mb-3">
+            <input type="hidden" name="pukcodigo" value="<%=usuarioLogueado.getUsuarioId()%>">
             <input type="text" class="form-control" placeholder="Buscar por Ciudad de origen o destino"
                    aria-label="Buscar por Ciudad de origen o destino" aria-describedby="button-addon2"
-                   name="textoBuscar" value="<%=textoBuscar%>" />
-            <button class="btn btn-outline-info" type="button" id="button-addon2">Buscar</button>
+                   name="textoBuscar" value="<%=textoBuscar%>" pattern="^[a-zA-Z][\sa-zA-Z]*" />
+            <button class="btn btn-info" type="submit" id="button-addon2">Buscar</button>
         </div>
     </form>
 

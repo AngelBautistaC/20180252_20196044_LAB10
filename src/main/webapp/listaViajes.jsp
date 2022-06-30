@@ -1,6 +1,8 @@
 <%@ page import="com.example._20180252_20196044_lab10.Beans.Viaje" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="com.example._20180252_20196044_lab10.Beans.Seguro" %><%--
+<%@ page import="com.example._20180252_20196044_lab10.Beans.Seguro" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %><%--
   Created by IntelliJ IDEA.
   User: Angel
   Date: 0028, 28 de junio del 2022
@@ -43,23 +45,23 @@
 
     <nav class="navbar navbar-light"
 
-            <%/*COLOR DORADO(MIEMBRO GOLD)*/ if (usuarioLogueado.getGasto()>1000.0 && usuarioLogueado.getGasto()<10000.0){%>
+            <%/*COLOR DORADO(MIEMBRO GOLD)*/ if (usuarioLogueado.getGasto()>=1000 && usuarioLogueado.getGasto()<10000){%>
          style="background-color: #DAA520" <% }%>
-            <%/*COLOR PLATEADO(MIEMBRO SILVER)*/ if (usuarioLogueado.getGasto()>100.0 && usuarioLogueado.getGasto()<1000.0){%>
+            <%/*COLOR PLATEADO(MIEMBRO SILVER)*/ if (usuarioLogueado.getGasto()>=100 && usuarioLogueado.getGasto()<1000){%>
          style="background-color: #C0C0C0" <% }%>
 
             <%/*COLOR AZUL (NORMAL)*/ if (usuarioLogueado.getGasto() < 100){%>
          style="background-color: #214b9f" <% }%>
-            <%/*COLOR NEGRO (MIEMBRO PLATINUM)*/ if (usuarioLogueado.getGasto() > 10000.0){%>
+            <%/*COLOR NEGRO (MIEMBRO PLATINUM)*/ if (usuarioLogueado.getGasto() >= 10000){%>
          style="background-color: #000000" <% }%>
     >
 
-        <h1 class="glow" style="color: white; ">Viajes de Telecos</h1>
+        <h1 class="glow" style="color: white; ">Viajes de Telecos⠀⠀⠀⠀</h1>
         <p class="my-1 mx-1" STYLE="color: white;font-weight: bold">Bienvenido <%=usuarioLogueado.getFirstName()%> <%=usuarioLogueado.getLastName()%><br>Status:
-            <%if (usuarioLogueado.getGasto()>1000.0 && usuarioLogueado.getGasto()<10000.0){ %> Gold <%}%>
-            <%if (usuarioLogueado.getGasto()>100.0 && usuarioLogueado.getGasto()<1000.0){ %> Silver <%}%>
+            <%if (usuarioLogueado.getGasto()>=1000 && usuarioLogueado.getGasto()<10000){ %> Gold <%}%>
+            <%if (usuarioLogueado.getGasto()>=100 && usuarioLogueado.getGasto()<1000){ %> Silver <%}%>
             <%if (usuarioLogueado.getGasto() < 100){ %> Normal <%}%>
-            <%if (usuarioLogueado.getGasto()> 10000.0){ %> Platinum <%}%>
+            <%if (usuarioLogueado.getGasto()>= 10000){ %> Platinum <%}%>
 
 
         </p>
@@ -99,10 +101,12 @@
         <button type="button" class="btn btn-warning" style="margin-top: -15px"><p class="my-1 mx-1" STYLE="color: white">Regresar</p></button>
     </a>
     <p><br></p>
-    <% if (request.getParameter("err") != null) {%>
-    <div class="alert alert-danger" role="alert"><%=request.getParameter("err")%>
+    <% if (session.getAttribute("err") != null) {%>
+    <div class="alert alert-danger" role="alert"><%=session.getAttribute("err")%>
     </div>
-    <% } %>
+    <%session.removeAttribute("err"); } %>
+
+
 
     <table class="table table-hover table-dark">
         <thead>
@@ -151,6 +155,65 @@
             <%
             }%>
 
+        <form method="post" action="<%=request.getContextPath()%>/MenuServlet?a=crearCompraNueva">
+        <tr>
+            <td><%int min = 10000000;
+                int max = 99999999;
+
+                //Generate random int value from 50 to 100
+                int random_int = (int)Math.floor(Math.random()*(max-min+1)+min);
+                //System.out.println(random_int);
+            %>
+
+                (Generado cuando añades tu viaje)
+            <input type="hidden" name="viajeID" value="<%=random_int%>"></td>
+            <td>
+                <% Date date = new Date();
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                    String str = formatter.format(date);
+                %>
+                <input type="date" id="start" name="viajeFecha" required="required"
+                       value="--/--/--"
+                       min="<%=str%>">
+            </td>
+            <td>
+                <input type="text"  class="form-control" id="viajeciudadOrigen" name="viajeciudadOrigen" pattern="^[a-zA-Z][\sa-zA-Z]*"  required="required"
+                       placeholder="Letras" >
+            </td>
+
+            <td>
+                <input type="text"  class="form-control" id="viajeciudadDestino" name="viajeciudadDestino" pattern="^[a-zA-Z][\sa-zA-Z]*"  required="required"
+                       placeholder="Letras" >
+            </td>
+
+            <td>
+                <input type="number"  class="form-control" id="viajeCostoBoleto" name="viajeCostoBoleto"   required="required"
+                       placeholder="Soles" step=".01">
+            </td>
+
+            <td>
+                <input type="number"  class="form-control" id="viajeTiquetes" name="viajeTiquetes"   required="required"
+                       placeholder="#tickets" >
+            </td>
+
+            <td>
+                <select name="viajeSeguro" id="viajeSeguro" class="form-control">
+                    <% for (Seguro seguro:listaSeguros) {%>
+                    <option value="<%=seguro.getIdSeguro()%>"><%=seguro.getNombreSeguro()%>
+                    </option>
+                    <% }%>
+                </select>
+            </td>
+            <td>
+                <button class="btn btn-info btn-sm" type="submit">Añade tu Propio Viaje!</button>
+            </td>
+
+
+        </tr>
+        </form>
+
+
+
         </tbody>
     </table>
 
@@ -161,5 +224,13 @@
 </div>
 
 
+
 </body>
+
+<script>
+    let d=new Date();
+    let today = d.toLocaleDateString('en-CA', {timeZone:'America/Lima'});
+    d.setDate(d.getDate() + 1);
+    let tomorrow = d.toLocaleDateString('en-CA', {timeZone:'America/Lima'});
+</script>
 </html>

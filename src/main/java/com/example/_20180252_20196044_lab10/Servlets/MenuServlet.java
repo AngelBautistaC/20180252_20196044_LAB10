@@ -32,6 +32,7 @@ public class MenuServlet extends HttpServlet {
             switch (action) {
                 case "listar" -> {
                     int idUsuario = usuarioLogueado.getUsuarioId();
+                    //System.out.println(idUsuario);
                     ArrayList<Compra> listaMenu = menuDao.obtenerListaMenu(idUsuario);
 
                     request.setAttribute("listaMenu", listaMenu);
@@ -127,21 +128,65 @@ public class MenuServlet extends HttpServlet {
                         //menuDao.actualizarGastoUsuario(gastoTotal, usuarioLogueado.getGasto(), usuarioLogueado.getUsuarioId());
                         Float cont = usuarioLogueado.getGasto() + gastoTotal;
                         usuarioLogueado.setGasto(cont);
-                        response.sendRedirect(request.getContextPath() + "/MenuServlet");
+
+
+                        request.getSession().setAttribute("success","Compra realizada, también se añadirá a Viajes Disponibles :)");
+                        response.sendRedirect(request.getContextPath()+"/MenuServlet");
                     } else {
-                        response.sendRedirect("MenuServlet?a=listarViajes&err=Error al comprar, usted ya ha comprado antes este viaje");
+                        request.getSession().setAttribute("err","Error al comprar, usted ya ha comprado antes este viaje");
+                        response.sendRedirect(request.getContextPath()+"/MenuServlet?a=listarViajes");
                     }
+
+
 
 
                 }
                 case "buscar" -> {
                     String textoBuscar = request.getParameter("textoBuscar");
+
                     request.setAttribute("textoBuscar", textoBuscar);
                     request.setAttribute("listaMenu", menuDao.buscarPorOrigenDestino(textoBuscar, usuarioLogueado.getUsuarioId()));
 
                     RequestDispatcher requestDispatcher = request.getRequestDispatcher("menuInicio.jsp");
                     requestDispatcher.forward(request, response);
                 }
+
+
+                //SECCION CREA TU PROPIO VIAJE
+
+
+                case "crearCompraNueva" -> {
+
+
+                    String nuevoOrigen=request.getParameter("viajeciudadOrigen");
+                    String nuevoDestino=request.getParameter("viajeciudadDestino");
+                    int nuevoViajeID=Integer.parseInt(request.getParameter("viajeID"));
+                    int nuevoViajetickets = Integer.parseInt(request.getParameter("viajeTiquetes"));
+                    int nuevoidSeguro = Integer.parseInt(request.getParameter("viajeSeguro"));
+                    String nuevoFecha=request.getParameter("viajeFecha");
+                    float nuevocostounit=Float.parseFloat(request.getParameter("viajeCostoBoleto"));
+                    float nuevogastoTotal=nuevoViajetickets*nuevocostounit;
+
+                    menuDao.nuevoViaje(nuevoViajeID,nuevoFecha,nuevocostounit,nuevoOrigen,nuevoDestino);
+
+                    menuDao.crearCompra(usuarioLogueado.getUsuarioId(), nuevoViajeID, nuevoViajetickets, nuevoidSeguro, nuevogastoTotal);
+
+
+                    //Actualizar el gasto del usuario
+
+                    float cont = usuarioLogueado.getGasto() + nuevogastoTotal;
+                    usuarioLogueado.setGasto(cont);
+
+                    request.getSession().setAttribute("success","Compra realizada, también se añadirá a Viajes Disponibles :)");
+                    response.sendRedirect(request.getContextPath()+"/MenuServlet");
+
+
+                }
+
+
+
+
+
 
             }
         }

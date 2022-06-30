@@ -23,11 +23,11 @@
         <main class="form-signin">
             <form method="post" action="<%=request.getContextPath()%>/LoginServlet">
                 <div class="mb-3">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" name="username" aria-describedby="emailHelp" placeholder="name@example.com">
+                    <label for="exampleInputEmail1" style="color: white">Email</label>
+                    <input type="email"  class="form-control" id="exampleInputEmail1" name="username" aria-describedby="emailHelp" placeholder="name@example.com">
                 </div>
                 <div class="mb-3">
-                    <label for="exampleInputPassword1">Password</label>
+                    <label for="exampleInputPassword1" style="color: white">Contraseña</label>
                     <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Contraseña">
                 </div>
                 <% if (request.getParameter("error") != null) { %>

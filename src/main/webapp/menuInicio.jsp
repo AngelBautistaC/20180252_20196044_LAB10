@@ -40,6 +40,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
 
 
+    <link rel="icon" href=
+            logo.png
+          type="image/x-icon">
+
 
     <title>Menu de Inicio</title>
 

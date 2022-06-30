@@ -12,6 +12,9 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="sesioninicio.css" media="screen" title="no title" charset="utf-8">
+    <link rel="icon" href=
+            logo.png
+          type="image/x-icon">
 
 
 
